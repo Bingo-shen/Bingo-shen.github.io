@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="本文包括：execl数据驱动、MySQL数据驱动、CSV数据驱动、爬取拉勾网实例、ddt测试驱动、对XML文件的读取、测试执行的log读取… Quick Start一.execl数据驱动1.xlutils简要说明导包：pip3 install xlutils 注意⚠️：xlutils在介些Execl文件的时候，只识别.xls后缀的文件，如果是.xlsx后缀的文件被解析，.xlsx后缀的文件会被破坏">
+<meta name="description" content="title: DataDrivercopyright: truedate: 2019-12-06 20:00:00update: 2019-12-07 16:00:00tages:        -Markdown        -对象存储categories：        -python基础        -python–#简介：execl数据驱动、MySQL数据驱动、CSV数据驱动、爬取拉勾">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DataDriver">
+<meta property="og:title" content="DataDrivers">
 <meta property="og:url" content="https:&#x2F;&#x2F;huangpiao.tech&#x2F;2019&#x2F;12&#x2F;07&#x2F;DataDrivers&#x2F;index.html">
 <meta property="og:site_name" content="沈剑心的博客">
-<meta property="og:description" content="本文包括：execl数据驱动、MySQL数据驱动、CSV数据驱动、爬取拉勾网实例、ddt测试驱动、对XML文件的读取、测试执行的log读取… Quick Start一.execl数据驱动1.xlutils简要说明导包：pip3 install xlutils 注意⚠️：xlutils在介些Execl文件的时候，只识别.xls后缀的文件，如果是.xlsx后缀的文件被解析，.xlsx后缀的文件会被破坏">
+<meta property="og:description" content="title: DataDrivercopyright: truedate: 2019-12-06 20:00:00update: 2019-12-07 16:00:00tages:        -Markdown        -对象存储categories：        -python基础        -python–#简介：execl数据驱动、MySQL数据驱动、CSV数据驱动、爬取拉勾">
 <meta property="og:locale" content="zn-CN">
-<meta property="og:updated_time" content="2019-12-07T06:00:45.330Z">
+<meta property="og:updated_time" content="2019-12-07T07:24:37.856Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -123,7 +123,7 @@
 
 
 
-  <title>DataDriver | 沈剑心的博客</title>
+  <title>DataDrivers | 沈剑心的博客</title>
   
 
 
@@ -277,7 +277,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">DataDriver</h1>
+          <h1 class="post-title" itemprop="name headline">DataDrivers</h1>
         
 
         <div class="post-meta">
@@ -289,7 +289,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-07T14:00:45+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-07T15:24:37+08:00">
                 2019-12-07
               </time>
             
@@ -327,7 +327,7 @@
       
 
       
-        <p>本文包括：<br>execl数据驱动、MySQL数据驱动、CSV数据驱动、爬取拉勾网实例、ddt测试驱动、对XML文件的读取、测试执行的log读取…</p>
+        <p>title: DataDriver<br>copyright: true<br>date: 2019-12-06 20:00:00<br>update: 2019-12-07 16:00:00<br>tages:<br>        -Markdown<br>        -对象存储<br>categories：<br>        -python基础<br>        -python<br>–<br>#简介：<br>execl数据驱动、MySQL数据驱动、CSV数据驱动、爬取拉勾网实例、ddt测试驱动、对XML文件的读取、测试执行的log读取…</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h2 id="一-execl数据驱动"><a href="#一-execl数据驱动" class="headerlink" title="一.execl数据驱动"></a>一.execl数据驱动</h2><h3 id="1-xlutils简要说明"><a href="#1-xlutils简要说明" class="headerlink" title="1.xlutils简要说明"></a>1.xlutils简要说明</h3><p>导包：pip3 install xlutils</p>
 <p>注意⚠️：xlutils在介些Execl文件的时候，只识别.xls后缀的文件，如果是.xlsx后缀的文件被解析，.xlsx后缀的文件会被破坏</p>
 <h3 id="2-接口自动化中对execl简单的读取"><a href="#2-接口自动化中对execl简单的读取" class="headerlink" title="2.接口自动化中对execl简单的读取"></a>2.接口自动化中对execl简单的读取</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/user/bin/env python</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="comment">#Author:shenqiang</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="string">'''xlrd写入文件，同时清空原文件,一般这种方法只用来读'''</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="string">'''拿到文件的路径'''</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">base_path</span><span class="params">(filename = None)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> os.path.join(os.path.dirname(__file__),filename)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="string">'''读取文件内容'''</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">work = xlrd.open_workbook(base_path(<span class="string">'execlTestFile.xls'</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"><span class="string">'''以下标或者sheet名取对应的哪页'''</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">sheet = work.sheet_by_index(<span class="number">0</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># sheet = work.sheet_by_name()</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"><span class="string">'''查看文件有多少行'''</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">print(sheet.nrows)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"><span class="string">'''获取单元格内容,第3行，第3列'''</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">print(sheet.cell_value(<span class="number">2</span>,<span class="number">2</span>))</span></pre></td></tr></table></figure>
