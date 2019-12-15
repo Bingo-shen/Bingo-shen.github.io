@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Params的MD5加密处理</title>
+    <url>/2019/12/15/ParamsMD5/</url>
+    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h2 id="针对平台加密数据处理"><a href="#针对平台加密数据处理" class="headerlink" title="针对平台加密数据处理"></a>针对平台加密数据处理</h2><p>接口自动化需求和问题拆分：</p>
+<p>“1.对请求参数按照key-value的格式，进行参数名的ascill码排序</p>
+<ul>
+<li>请求参数不确定</li>
+<li>怎么排序</li>
+</ul>
+<p>2.在第一步的结果字符串尾部拼接密钥</p>
+<ul>
+<li>name=shenqiang&amp;age=28&amp;address=nanjing&amp;sex=boy+密钥</li>
+</ul>
+<p>3.排序后，对请求的参数进行MD5加密“</p>
+<ul>
+<li>hashlib</li>
+</ul>
+<p>解决方法（思路）</p>
+<p>1.请求参数不确定—&gt;动态参数 <em>args，*</em>kwargs</p>
+<p>2.怎么排序—&gt;            sorted()</p>
+<p>3.请求地址尾部密钥拼接可以用urllib的parse</p>
+<p>4.hashlib加密</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> parse</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dataSign</span><span class="params">(secure=<span class="string">'shenqiang'</span>,*args,**kwargs)</span>:</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="string">'''对字典的key进行排序'''</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    dict2 = dict(sorted(kwargs.items(),key=<span class="keyword">lambda</span> item:item[<span class="number">0</span>]))</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="string">'''对url进行拼接'''</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    str1 = parse.urlencode(dict2)+secure</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="string">'''进行MD5加密'''</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="comment"># 实例化MD5</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">    md = hashlib.md5()</span></pre></td></tr><tr><td class="code"><pre><span class="line">    md.update(str1.encode(<span class="string">'utf-8'</span>))</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">return</span> md.hexdigest()</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="string">'''data2参数不确定'''</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">data2 = &#123;<span class="string">"a"</span>:<span class="string">"2"</span>,<span class="string">"c"</span>:<span class="string">"1"</span>,<span class="string">"b"</span>:<span class="string">"3"</span>&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">print(dataSign(**data2))</span></pre></td></tr></table></figure>
+
+<p>#</p>
+]]></content>
+      <categories>
+        <category>hexo博客</category>
+      </categories>
+      <tags>
+        <tag>Python开发</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Flask-Restful</title>
     <url>/2019/12/14/FlaskRestful/</url>
     <content><![CDATA[<p>本文包括：<br>flask-restful的概述、配置路由进行接口测试、配置基本鉴权进行测试、Restful中案例实战【图书管理】…</p>
