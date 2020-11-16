@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Python开发," />
+  <meta name="keywords" content="自动化测试," />
 
 
 
@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="Quick Start针对平台加密数据处理接口自动化需求和问题拆分： “1.对请求参数按照key-value的格式，进行参数名的ascill码排序  请求参数不确定 怎么排序  2.在第一步的结果字符串尾部拼接密钥  name&#x3D;shenqiang&amp;amp;age&#x3D;28&amp;amp;address&#x3D;nanjing&amp;amp;sex&#x3D;boy+密钥  3.排序后，对请求的参数进行MD5加密“  hashlib">
-<meta name="keywords" content="Python开发">
+<meta name="description" content="本文包含 API自动化、WEB自动化常见的方法">
+<meta name="keywords" content="自动化测试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Params的MD5加密处理">
-<meta property="og:url" content="https:&#x2F;&#x2F;huangpiao.tech&#x2F;2019&#x2F;12&#x2F;15&#x2F;ParamsMD5&#x2F;index.html">
+<meta property="og:title" content="API 自动化测试笔记">
+<meta property="og:url" content="https:&#x2F;&#x2F;huangpiao.tech&#x2F;2020&#x2F;11&#x2F;16&#x2F;%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E7%AC%94%E8%AE%B0&#x2F;index.html">
 <meta property="og:site_name" content="沈剑心的博客">
-<meta property="og:description" content="Quick Start针对平台加密数据处理接口自动化需求和问题拆分： “1.对请求参数按照key-value的格式，进行参数名的ascill码排序  请求参数不确定 怎么排序  2.在第一步的结果字符串尾部拼接密钥  name&#x3D;shenqiang&amp;amp;age&#x3D;28&amp;amp;address&#x3D;nanjing&amp;amp;sex&#x3D;boy+密钥  3.排序后，对请求的参数进行MD5加密“  hashlib">
+<meta property="og:description" content="本文包含 API自动化、WEB自动化常见的方法">
 <meta property="og:locale" content="zn-CN">
-<meta property="og:updated_time" content="2019-12-15T04:03:39.993Z">
+<meta property="og:updated_time" content="2020-11-16T10:51:38.826Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://huangpiao.tech/2019/12/15/ParamsMD5/"/>
+  <link rel="canonical" href="https://huangpiao.tech/2020/11/16/自动化测试笔记/"/>
 
 
 
 
 
-  <title>Params的MD5加密处理 | 沈剑心的博客</title>
+  <title>API 自动化测试笔记 | 沈剑心的博客</title>
   
 
 
@@ -251,7 +251,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://huangpiao.tech/2019/12/15/ParamsMD5/">
+    <link itemprop="mainEntityOfPage" href="https://huangpiao.tech/2020/11/16/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="沈强">
@@ -268,7 +268,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Params的MD5加密处理</h1>
+          <h1 class="post-title" itemprop="name headline">API 自动化测试笔记</h1>
         
 
         <div class="post-meta">
@@ -280,8 +280,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-15T12:03:39+08:00">
-                2019-12-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-11-16T18:51:38+08:00">
+                2020-11-16
               </time>
             
 
@@ -303,8 +303,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo博客</span>
+                  <a href="/categories/Person-s-Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Person's Notes.</span>
                   </a>
                 </span>
 
@@ -340,29 +340,8 @@
       
 
       
-        <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h2 id="针对平台加密数据处理"><a href="#针对平台加密数据处理" class="headerlink" title="针对平台加密数据处理"></a>针对平台加密数据处理</h2><p>接口自动化需求和问题拆分：</p>
-<p>“1.对请求参数按照key-value的格式，进行参数名的ascill码排序</p>
-<ul>
-<li>请求参数不确定</li>
-<li>怎么排序</li>
-</ul>
-<p>2.在第一步的结果字符串尾部拼接密钥</p>
-<ul>
-<li>name=shenqiang&amp;age=28&amp;address=nanjing&amp;sex=boy+密钥</li>
-</ul>
-<p>3.排序后，对请求的参数进行MD5加密“</p>
-<ul>
-<li>hashlib</li>
-</ul>
-<p>解决方法（思路）</p>
-<p>1.请求参数不确定—&gt;动态参数 <em>args，*</em>kwargs</p>
-<p>2.怎么排序—&gt;            sorted()</p>
-<p>3.请求地址尾部密钥拼接可以用urllib的parse</p>
-<p>4.hashlib加密</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> parse</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dataSign</span><span class="params">(secure=<span class="string">'shenqiang'</span>,*args,**kwargs)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'''对字典的key进行排序'''</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    dict2 = dict(sorted(kwargs.items(),key=<span class="keyword">lambda</span> item:item[<span class="number">0</span>]))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'''对url进行拼接'''</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    str1 = parse.urlencode(dict2)+secure</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'''进行MD5加密'''</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    <span class="comment"># 实例化MD5</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    md = hashlib.md5()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    md.update(str1.encode(<span class="string">'utf-8'</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> md.hexdigest()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"><span class="string">'''data2参数不确定'''</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">data2 = &#123;<span class="string">"a"</span>:<span class="string">"2"</span>,<span class="string">"c"</span>:<span class="string">"1"</span>,<span class="string">"b"</span>:<span class="string">"3"</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">print(dataSign(**data2))</span></pre></td></tr></table></figure>
-
-<p>#</p>
-
+        <p>本文包含 API自动化、WEB自动化常见的方法</p>
+<object data="./AutomatedTest/AutomatedTest.pdf" type="application/pdf" width="100%" height="0.1%"></object>
       
     </div>
     
@@ -390,7 +369,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Python%E5%BC%80%E5%8F%91/" <i class="fa fa-tag"></i> Python开发</a>
+            <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" <i class="fa fa-tag"></i> 自动化测试</a>
           
         </div>
       
@@ -403,8 +382,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/12/14/FlaskRestful/" rel="next" title="Flask-Restful">
-                <i class="fa fa-chevron-left"></i> Flask-Restful
+              <a href="/2020/08/26/DjangoTag/" rel="next" title="Django-tag">
+                <i class="fa fa-chevron-left"></i> Django-tag
               </a>
             
           </div>
@@ -412,10 +391,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/01/12/FlaskResponse/" rel="prev" title="Flask-Response">
-                Flask-Response <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -467,17 +442,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -557,22 +523,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-text">Quick Start</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#针对平台加密数据处理"><span class="nav-text">针对平台加密数据处理</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
