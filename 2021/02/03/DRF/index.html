@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zn-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Django," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文包括：DRF介绍、安装、基本使用，序列化，Request和Response，类试图，ViewSet视图集，认证和权限，限速节流… 第一节 DRF介绍DRF介绍：DRF是Django Rest Framework单词的简写，是在Django框架中实现Restful API的一个插件，使用他可以非常方便的实现接口数据的返回。Django中也可以使用JsonResponse直接返回json格式的数据">
+<meta name="keywords" content="Django">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django Rest Framework">
+<meta property="og:url" content="https:&#x2F;&#x2F;huangpiao.tech&#x2F;2021&#x2F;02&#x2F;03&#x2F;DRF&#x2F;index.html">
+<meta property="og:site_name" content="沈剑心的博客">
+<meta property="og:description" content="本文包括：DRF介绍、安装、基本使用，序列化，Request和Response，类试图，ViewSet视图集，认证和权限，限速节流… 第一节 DRF介绍DRF介绍：DRF是Django Rest Framework单词的简写，是在Django框架中实现Restful API的一个插件，使用他可以非常方便的实现接口数据的返回。Django中也可以使用JsonResponse直接返回json格式的数据">
+<meta property="og:locale" content="zn-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;huangpiao.tech&#x2F;2021&#x2F;02&#x2F;03&#x2F;DRF&#x2F;assets&#x2F;MultipleProxySetup.png">
+<meta property="og:updated_time" content="2021-02-03T01:46:06.279Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;huangpiao.tech&#x2F;2021&#x2F;02&#x2F;03&#x2F;DRF&#x2F;assets&#x2F;MultipleProxySetup.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://huangpiao.tech/2021/02/03/DRF/"/>
+
+
+
+
+
+  <title>Django Rest Framework | 沈剑心的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3ff6c3b3a9ec35ba1b844a56afbe1256";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zn-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">沈剑心的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不忘初心、方得始终</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://huangpiao.tech/2021/02/03/DRF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="沈强">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="沈剑心的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Django Rest Framework</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-03T09:46:06+08:00">
+                2021-02-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo博客</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文包括：<br>DRF介绍、安装、基本使用，序列化，Request和Response，类试图，ViewSet视图集，认证和权限，限速节流…</p>
+<h2 id="第一节-DRF介绍"><a href="#第一节-DRF介绍" class="headerlink" title="第一节 DRF介绍"></a>第一节 DRF介绍</h2><h3 id="DRF介绍："><a href="#DRF介绍：" class="headerlink" title="DRF介绍："></a>DRF介绍：</h3><p><code>DRF</code>是<code>Django Rest Framework</code>单词的简写，是在<code>Django</code>框架中实现<code>Restful API</code>的一个插件，使用他可以非常方便的实现接口数据的返回。<code>Django</code>中也可以使用<code>JsonResponse</code>直接返回<code>json</code>格式的数据，但是<code>DRF</code>相比直接使用<code>Django</code>返回<code>json</code>数据有以下几个好处：</p>
+<ol>
+<li>可以自动生成<code>API</code>文档，在前后端分离开发的时候进行沟通比较有用。</li>
+<li>授权验证策略比较完整，包含<code>OAuth1</code>和<code>OAuth2</code>验证。</li>
+<li>支持<code>ORM</code>模型和非<code>ORM</code>数据的序列化。</li>
+<li>高度封装了视图，使得返回<code>json</code>数据更加的高效。</li>
+</ol>
+<h3 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h3><p><code>drf</code>目前最新的版本是<code>3.10</code>，需要以下依赖：</p>
+<ol>
+<li><code>Python (3.5, 3.6, 3.7)</code></li>
+<li><code>Django (1.11, 2.0, 2.1, 2.2)</code></li>
+</ol>
+<p>准备好以上依赖后，可以通过<code>pip install djangorestframework</code>安装最新的版本。当然为了跟课程中的环境保持一致，可以安装<code>3.10</code>的版本。</p>
+<h3 id="基本使用："><a href="#基本使用：" class="headerlink" title="基本使用："></a>基本使用：</h3><h4 id="一、注册rest-framework："><a href="#一、注册rest-framework：" class="headerlink" title="一、注册rest_framework："></a>一、注册rest_framework：</h4><p>安装完后，使用他还需要进行在<code>settings.INSTALLED_APPS</code>中进行安装。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">INSTALLED_APPS = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    ...</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'rest_framework'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">]</span></pre></td></tr></table></figure>
+
+<h4 id="二、创建app和模型："><a href="#二、创建app和模型：" class="headerlink" title="二、创建app和模型："></a>二、创建app和模型：</h4><p>创建一个名叫<code>meituan</code>的<code>app</code>，然后在<code>meituan.models</code>中创建以下模型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib.auth.models <span class="keyword">import</span> User</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Merchant</span><span class="params">(models.Model)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="string">"""</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="string">    商家</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="string">    """</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    name = models.CharField(max_length=<span class="number">200</span>,verbose_name=<span class="string">'商家名称'</span>,null=<span class="literal">False</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    address = models.CharField(max_length=<span class="number">200</span>,verbose_name=<span class="string">'商家'</span>,null=<span class="literal">False</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    logo = models.CharField(max_length=<span class="number">200</span>,verbose_name=<span class="string">'商家logo'</span>,null=<span class="literal">False</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    notice = models.CharField(max_length=<span class="number">200</span>, verbose_name=<span class="string">'商家的公告'</span>,null=<span class="literal">True</span>,blank=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    up_send = models.DecimalField(verbose_name=<span class="string">'起送价'</span>,default=<span class="number">0</span>,max_digits=<span class="number">6</span>,decimal_places=<span class="number">2</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    lon = models.FloatField(verbose_name=<span class="string">'经度'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    lat = models.FloatField(verbose_name=<span class="string">'纬度'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    created = models.ForeignKey(User,on_delete=models.SET_NULL,null=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GoodsCategory</span><span class="params">(models.Model)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">    <span class="string">"""</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"><span class="string">    商家商品分类</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"><span class="string">    """</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">    name = models.CharField(max_length=<span class="number">20</span>,verbose_name=<span class="string">'分类名称'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">    merchant = models.ForeignKey(Merchant,on_delete=models.CASCADE,verbose_name=<span class="string">'所属商家'</span>,related_name=<span class="string">'categories'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Goods</span><span class="params">(models.Model)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">    <span class="string">"""</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"><span class="string">    商品</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line"><span class="string">    """</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">    name = models.CharField(max_length=<span class="number">200</span>,verbose_name=<span class="string">'商品名称'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">    picture = models.CharField(max_length=<span class="number">200</span>,verbose_name=<span class="string">'商品图片'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">    intro = models.CharField(max_length=<span class="number">200</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">    price = models.DecimalField(verbose_name=<span class="string">'商品价格'</span>,max_digits=<span class="number">6</span>,decimal_places=<span class="number">2</span>) <span class="comment"># 最多6位数，2位小数。9999.99</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">    category = models.ForeignKey(GoodsCategory,on_delete=models.CASCADE,related_name=<span class="string">'goods_list'</span>)</span></pre></td></tr></table></figure>
+
+<h4 id="三、添加测试数据："><a href="#三、添加测试数据：" class="headerlink" title="三、添加测试数据："></a>三、添加测试数据：</h4><p>创建完模型后，运行<code>makemigrations</code>和<code>migrate</code>后把模型映射到<code>mysql</code>数据库中。然后在<code>navicat</code>中，把<code>meituan_merchant.sql</code>文件运行后，添加测试数据。</p>
+<h4 id="四、编写Serializers："><a href="#四、编写Serializers：" class="headerlink" title="四、编写Serializers："></a>四、编写Serializers：</h4><p>在<code>meituan</code>这个<code>app</code>中新创建一个文件<code>serializers.py</code>，然后添加以下代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> serializers</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Merchant,GoodsCategory,Goods</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MerchantSerializer</span><span class="params">(serializers.ModelSerializer)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        model = Merchant</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        fields = <span class="string">"__all__"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CategorySerializer</span><span class="params">(serializers.ModelSerializer)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        model = GoodsCategory</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        fields = <span class="string">"__all__"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GoodsSerializer</span><span class="params">(serializers.ModelSerializer)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        model = Goods</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        fields = <span class="string">"__all__"</span></span></pre></td></tr></table></figure>
+
+<h4 id="五、编写视图："><a href="#五、编写视图：" class="headerlink" title="五、编写视图："></a>五、编写视图：</h4><p>使用<code>drf</code>我们可以非常方便的创建包含<code>get/post</code>等<code>method</code>的视图。在<code>meituan.views</code>中添加以下代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MerchantViewSet</span><span class="params">(ModelViewSet)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    serializer_class = MerchantSerializer</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    queryset = Merchant.objects.all()</span></pre></td></tr></table></figure>
+
+<h4 id="六、编写路由："><a href="#六、编写路由：" class="headerlink" title="六、编写路由："></a>六、编写路由：</h4><p>在<code>meituan.urls</code>中添加以下代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.routers <span class="keyword">import</span> DefaultRouter</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> views</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">router = DefaultRouter(trailing_slash=<span class="literal">False</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">router.register(<span class="string">'merchant'</span>,views.MerchantViewSet,basename=<span class="string">'merchant'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">] + router.urls</span></pre></td></tr></table></figure>
+
+<p>然后再在项目的<code>urls.py</code>中把<code>meituan</code>的路由添加进去：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path,include</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    path(<span class="string">'admin/'</span>, admin.site.urls),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    path(<span class="string">'meituan/'</span>,include(<span class="string">"meituan.urls"</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">]</span></pre></td></tr></table></figure>
+
+<p>以后我们就可以使用不同的<code>method</code>向<code>/meituan/merchant</code>发送请求。比如用<code>get</code>，那么就会返回<code>merchant</code>的列表，比如用<code>post</code>，那么就会向<code>merchant</code>表添加数据。</p>
+<h2 id="第二节-序列化"><a href="#第二节-序列化" class="headerlink" title="第二节 序列化"></a>第二节 序列化</h2><p><code>drf</code>中的序列化主要是用来将模型序列化成<code>JSON</code>格式的对象。但是除了序列化，他还具有表单验证功能，数据存储和更新功能。以下将进行讲解。</p>
+<h3 id="创建一个Serializer类："><a href="#创建一个Serializer类：" class="headerlink" title="创建一个Serializer类："></a>创建一个Serializer类：</h3><p>这里我们以上一节的模型<code>Merchant</code>、<code>GoodsCategory</code>、<code>Goods</code>为例来讲解。首先我们创建一个<code>Merchant</code>的<code>Serializer</code>类。必须继承自<code>Serializer</code>及其子类。示例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> serializers</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Merchant,GoodsCategory,Goods</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MerchantSerializer</span><span class="params">(serializers.Serializer)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    id = serializers.IntegerField(read_only=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    name = serializers.CharField(required=<span class="literal">True</span>,max_length=<span class="number">200</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    logo = serializers.CharField(required=<span class="literal">True</span>,max_length=<span class="number">200</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    notice = serializers.CharField(max_length=<span class="number">200</span>,required=<span class="literal">False</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    up_send = serializers.DecimalField(max_digits=<span class="number">6</span>,decimal_places=<span class="number">2</span>,required=<span class="literal">False</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    lon = serializers.FloatField(required=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    lat = serializers.FloatField(required=<span class="literal">True</span>,error_messages=&#123;<span class="string">"required"</span>:<span class="string">"必须传入lat！"</span>&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(self, validated_data)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># create方法实现</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Merchant.objects.create(**validated_data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">update</span><span class="params">(self,instance, validated_data)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># update方法实现</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">        instance.name = validated_data.get(<span class="string">'name'</span>,instance.name)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        instance.logo = validated_data.get(<span class="string">'logo'</span>,instance.logo)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        instance.notice = validated_data.get(<span class="string">'notice'</span>,instance.notice)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        instance.up_send = validated_data.get(<span class="string">'up_send'</span>,instance.up_send)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        instance.lon = validated_data.get(<span class="string">'lon'</span>,instance.lon)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        instance.lat = validated_data.get(<span class="string">'lat'</span>,instance.lat)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">        instance.save()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> instance</span></pre></td></tr></table></figure>
+
+<p>那么以后在视图函数中，可以使用他来对数据进行序列化，也可以对数据进行校验，然后存储数据。比如以下在视图函数中使用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Merchant</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .serializers <span class="keyword">import</span> MerchantSerializer</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.http.response <span class="keyword">import</span> JsonResponse</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.views.decorators.http <span class="keyword">import</span> require_http_methods</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@require_http_methods(['GET','POST'])</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">merchant</span><span class="params">(request)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        merchants = Merchant.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        serializer = MerchantSerializer(merchants,many=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> JsonResponse(serializer.data,safe=<span class="literal">False</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        serializer = MerchantSerializer(data=request.POST)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> serializer.is_valid():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">            serializer.save()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> JsonResponse(serializer.data,status=<span class="number">200</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> JsonResponse(serializer.errors,status=<span class="number">400</span>)</span></pre></td></tr></table></figure>
+
+<h3 id="ModelSerializer："><a href="#ModelSerializer：" class="headerlink" title="ModelSerializer："></a>ModelSerializer：</h3><p>之前我们在写序列化类的时候，几乎把模型中所有的字段都写了一遍，我们可以把模型中的字段移植过来即可。这时候就可以使用<code>ModelSerializer</code>类实现。示例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MerchantSerializer</span><span class="params">(serializers.ModelSerializer)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        model = Merchant</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        fields = <span class="string">"__all__"</span></span></pre></td></tr></table></figure>
+
+<p>在视图函数中也是一样的用法。</p>
+<h3 id="Serializer的嵌套："><a href="#Serializer的嵌套：" class="headerlink" title="Serializer的嵌套："></a><code>Serializer</code>的嵌套：</h3><p>有时候在一个序列化中，我们可能需要其他模型的序列化。这时候就可以使用到序列化的嵌套。比如我们在<code>GoodsCategory</code>中想要获取<code>Merchant</code>以及这个分类下的商品<code>Goods</code>（只是为了演示，实际情况不一定要全部返回）。那么示例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GoodsSerializer</span><span class="params">(serializers.ModelSerializer)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        model = Goods</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        fields = <span class="string">"__all__"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MerchantSerializer</span><span class="params">(serializers.ModelSerializer)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        model = Merchant</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        fields = <span class="string">"__all__"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GoodsCategorySerializer</span><span class="params">(serializers.ModelSerializer)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    merchant = MerchantSerializer(read_only=<span class="literal">True</span>,required=<span class="literal">False</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    goods_list = GoodsSerializer(many=<span class="literal">True</span>,required=<span class="literal">False</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    merchant_id = serializers.IntegerField(required=<span class="literal">True</span>,write_only=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        model = GoodsCategory</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        fields = <span class="string">"__all__"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">validate_merchant_id</span><span class="params">(self,value)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> Merchant.objects.filter(pk=value).exists():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">raise</span> serializers.ValidationError(<span class="string">"商家不存在！"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> value</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(self, validated_data)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">        merchant_id = validated_data.get(<span class="string">'merchant_id'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">        merchant = Merchant.objects.get(pk=merchant_id)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">        category = GoodsCategory.objects.create(name=validated_data.get(<span class="string">'name'</span>), merchant=merchant)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> category</span></pre></td></tr></table></figure>
+
+<p>视图函数的写法还是跟之前一样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@require_http_methods(['GET','POST'])</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">goods_category</span><span class="params">(request)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        categories = GoodsCategory.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        serializer = GoodsCategorySerializer(categories,many=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> JsonResponse(serializer.data,safe=<span class="literal">False</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        serializer = GoodsCategorySerializer(data=request.POST)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> serializer.is_valid():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            serializer.save()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> JsonResponse(serializer.data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> JsonResponse(serializer.errors,status=<span class="number">400</span>)</span></pre></td></tr></table></figure>
+
+<h3 id="关于read-only和write-only："><a href="#关于read-only和write-only：" class="headerlink" title="关于read_only和write_only："></a>关于read_only和write_only：</h3><ol>
+<li><code>read_only=True</code>：这个字段只只能读，只有在返回数据的时候会使用。</li>
+<li><code>write_only=True</code>：这个字段只能被写，只有在新增数据或者更新数据的时候会用到。</li>
+</ol>
+<h3 id="验证："><a href="#验证：" class="headerlink" title="验证："></a>验证：</h3><p>验证用户上传上来的字段是否满足要求。可以通过以下三种方式来实现。</p>
+<ol>
+<li>验证在<code>Field</code>中通过参数的形式进行指定。比如<code>required</code>等。</li>
+<li>通过重写<code>validate(self,attrs)</code>方法进行验证。<code>attrs</code>中包含了所有字段。如果验证不通过，那么调用<code>raise serializer.ValidationError(&#39;error&#39;)</code>即可。</li>
+<li>重写<code>validate_字段名(self,value)</code>方法进行验证。这个是针对某个字段进行验证的。如果验证不通过，也可以抛出异常。</li>
+</ol>
+<h3 id="更多："><a href="#更多：" class="headerlink" title="更多："></a>更多：</h3><p>更多请参考：</p>
+<ol>
+<li><code>Serializer</code>：<code>https://www.django-rest-framework.org/api-guide/serializers/</code>。</li>
+<li><code>Serializes Fields</code>及其参数： <code>https://www.django-rest-framework.org/api-guide/fields/</code>。</li>
+</ol>
+<h2 id="第三节-Request和Response"><a href="#第三节-Request和Response" class="headerlink" title="第三节 Request和Response"></a>第三节 Request和Response</h2><p>在<code>drf</code>中，可以使用<code>Request</code>和<code>Response</code>对象来替代<code>django</code>内置的<code>HttpRequest</code>和<code>HttpResponse</code>。替代<code>django</code>的对象有很多好处。以下进行简单讲解。</p>
+<h3 id="Request对象："><a href="#Request对象：" class="headerlink" title="Request对象："></a>Request对象：</h3><p><code>DRF</code>的<code>Request</code>对象是从<code>HttpRequest</code>中拓展出来的，但是增加了一些其他的属性。其中最核心的用得最多的属性便是<code>request.data</code>。<code>request.data</code>比<code>request.POST</code>更加灵活：</p>
+<ol>
+<li><code>request.POST</code>：只能处理表单数据，获取通过<code>POST</code>方式上传上来的数据。</li>
+<li><code>request.data</code>：可以处理任意的数据。可以获取通过<code>POST</code>、<code>PUT</code>、<code>PATCH</code>等方式上传上来的数据。</li>
+<li><code>request.query_params</code>：查询参数。比<code>request.GET</code>更用起来更直白。</li>
+</ol>
+<h3 id="Response对象："><a href="#Response对象：" class="headerlink" title="Response对象："></a>Response对象：</h3><p><code>Response</code>可以自动的根据返回的数据类型来决定返回什么样的格式。并且会自动的监听如果是浏览器访问，那么会返回这个路由的信息。</p>
+<h3 id="状态码："><a href="#状态码：" class="headerlink" title="状态码："></a>状态码：</h3><p>在<code>Restful API</code>中，响应的状态码是很重要的一部分。比如请求成功是<code>200</code>，参数错误是<code>400</code>等。但是具体某个状态码是干什么的，<code>django</code>是没有做过多的解释（这也不是django所需要解决的问题，因为他只是个web框架），对于一些初学者而言用起来会有点迷糊。这时候我们可以使用<code>DRF</code>提供的状态码。比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> status</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@api_view(['GET','POST','PUT','DELETE'])</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">merchant</span><span class="params">(request)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> Response(&#123;<span class="string">"username"</span>:<span class="string">"zhiliao"</span>&#125;,status=status.HTTP_200_OK)</span></pre></td></tr></table></figure>
+
+<h3 id="实现APIView："><a href="#实现APIView：" class="headerlink" title="实现APIView："></a>实现<code>APIView</code>：</h3><p>以上的<code>Respone</code>和<code>Request</code>对象都只能在<code>DRF</code>的<code>APIView</code>中才能使用。如果是视图函数，那么可以使用装饰器<code>rest_framework.decorators.api_view</code>进行装饰，这个装饰器中可以传递本视图函数可以使用什么<code>method</code>进行请求。示例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@api_view(['GET', 'PUT', 'DELETE'])</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">snippet_detail</span><span class="params">(request, pk)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="string">"""</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="string">    Retrieve, update or delete a code snippet.</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="string">    """</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">try</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        snippet = Snippet.objects.get(pk=pk)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">except</span> Snippet.DoesNotExist:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Response(status=status.HTTP_404_NOT_FOUND)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        serializer = SnippetSerializer(snippet)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">elif</span> request.method == <span class="string">'PUT'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        serializer = SnippetSerializer(snippet, data=request.data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> serializer.is_valid():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">            serializer.save()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> Response(serializer.data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">elif</span> request.method == <span class="string">'DELETE'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        snippet.delete()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Response(status=status.HTTP_204_NO_CONTENT)</span></pre></td></tr></table></figure>
+
+<p>如果是类视图，那么可以让你的类继承自<code>rest_framework.views.APIView</code>。示例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.views <span class="keyword">import</span> APIView</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MerchantView</span><span class="params">(APIView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self,request)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Response(<span class="string">"你好"</span>)</span></pre></td></tr></table></figure>
+
+<h2 id="第四节-类试图"><a href="#第四节-类试图" class="headerlink" title="第四节 类试图"></a>第四节 类试图</h2><p>在<code>DRF</code>中，推荐使用类视图，因为类视图可以通过继承的方式把一些重复性的工作抽取出来，而使得代码更加简洁。当然如果你不想使用类视图，那么就用<code>@api_view</code>装饰器包裹一下就可以。</p>
+<h3 id="APIView："><a href="#APIView：" class="headerlink" title="APIView："></a>APIView：</h3><p><code>APIView</code>是<code>DRF</code>中类视图最基本的父类。基本用法跟<code>Django</code>中自带的<code>View</code>类是一样的。也是自己分别实现<code>get</code>、<code>post</code>等方法。示例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MerchantView</span><span class="params">(APIView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="string">"""</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="string">    检索, 更新和删除一个merchant实例对象.</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="string">    """</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_object</span><span class="params">(self, pk)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">try</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> Merchant.objects.get(pk=pk)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">except</span> Merchant.DoesNotExist:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">raise</span> Http404</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, request, pk=None)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> pk:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            merchant= self.get_object(pk)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">            serializer = MerchantSerializer(merchant)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> Response(serializer.data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">            queryset = Merchant.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">            serializer = MerchantSerializer(instance=queryset,many=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> Response(serializer.data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span><span class="params">(self, request, pk)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        merchant = self.get_object(pk)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        serializer = MerchantSerializer(merchant, data=request.data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> serializer.is_valid():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">            serializer.save()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> Response(serializer.data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(self, request, pk)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">        merchant= self.get_object(pk)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">        merchant.delete()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Response(status=status.HTTP_204_NO_CONTENT)</span></pre></td></tr></table></figure>
+
+<p>当然<code>APIView</code>中还继承了一些常用的属性，比如<code>authentication_classes</code>、<code>permission_classes</code>、<code>throttle_classes</code>等。</p>
+<h3 id="Mixins："><a href="#Mixins：" class="headerlink" title="Mixins："></a>Mixins：</h3><p><code>mixins</code>翻译成中文是混入，组件的意思。在<code>DRF</code>中，针对获取列表，检索，创建等操作，都有相应的<code>mixin</code>。示例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Merchant</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .serializers <span class="keyword">import</span> MerchantSerializer</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> mixins</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> generics</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MerchantView</span><span class="params">(</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="params">    generics.GenericAPIView,</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="params">    mixins.ListModelMixin,</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="params">    mixins.RetrieveModelMixin,</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="params">    mixins.CreateModelMixin,</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="params">    mixins.UpdateModelMixin,</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="params">    mixins.DestroyModelMixin</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="params">)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    queryset = Merchant.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    serializer_class = MerchantSerializer</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self,request,pk=None)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> pk:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> self.retrieve(request)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> self.list(request)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self,request)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> self.create(request)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span><span class="params">(self,request,pk=None)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> self.update(request)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(self,request,pk=None)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> self.destroy(request)</span></pre></td></tr></table></figure>
+
+<p>以上我们通过继承<code>generics.GenericAPIView</code>，可以设置<code>queryset</code>以及<code>serializer_class</code>，那么视图函数就知道你是要针对哪个模型做处理，你的序列化的类是什么了。接着我们继承<code>mixins.ListModelMixin/CreateModelMixin</code>类，这样<code>MerchantList</code>就拥有了获取列表，以及创建数据的功能。下面我们通过写<code>get</code>和<code>post</code>方法，调用<code>self.list</code>和<code>self.create</code>方法，就可以轻松的实现获取商家列表和创建商家的功能。</p>
+<h3 id="Generic类视图："><a href="#Generic类视图：" class="headerlink" title="Generic类视图："></a>Generic类视图：</h3><p>以上我们通过<code>mixin</code>可以非常方便的实现一些<code>CURD</code>操作。实际上针对这些<code>mixin</code>，<code>DRF</code>还进一步的进行了封装，放到<code>generics</code>下。有以下<code>generic</code>类视图：</p>
+<ol>
+<li><code>generics.ListAPIView</code>：实现获取列表的。实现<code>get</code>方法。</li>
+<li><code>generics.CreateAPIView</code>：实现创建数据的。实现<code>post</code>方法。</li>
+<li><code>generics.UpdateAPIView</code>：实现更新数据的。实现<code>put</code>方法。</li>
+<li><code>generics.DestroyAPIView</code>：实现删除数据的。实现<code>delete</code>方法。</li>
+<li><code>generics.RetrieveAPIView</code>：实现检索数据的。</li>
+<li><code>generics.ListCreateAPIView</code>：实现列表和创建数据的。</li>
+<li><code>generics.RetrieveUpdateAPIView</code>：实现检索和更新数据的。</li>
+<li><code>generics.RetrieveDestroyAPIView</code>：实现检索和删除数据的。</li>
+<li><code>generics.RetrieveUpdateDestroyAPIView</code>：实现检索和更新和删除数据的。</li>
+</ol>
+<p>用法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MerchantView</span><span class="params">(</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="params">    generics.CreateAPIView,</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="params">    generics.UpdateAPIView,</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="params">    generics.DestroyAPIView,</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="params">    generics.RetrieveAPIView</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="params">)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    serializer_class = MerchantSerializer</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    queryset = Merchant.objects.all()</span></pre></td></tr></table></figure>
+
+<p>那么在定义<code>url</code>与视图映射的时候，还是按照之前的写法就够了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    path(<span class="string">'merchant/'</span>,views.MerchantView.as_view()),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    path(<span class="string">'merchant/&lt;int:pk&gt;/'</span>,views.MerchantView.as_view())</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="comment"># path('category',views.goods_category,name="category")</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">]</span></pre></td></tr></table></figure>
+
+<p>请求的<code>url</code>和<code>method</code>产生的结果如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left">method</th>
+<th align="left">url</th>
+<th align="left">结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">get</td>
+<td align="left">/merchant/31/</td>
+<td align="left">获取id=31的merchant数据</td>
+</tr>
+<tr>
+<td align="left">post</td>
+<td align="left">/merchant/</td>
+<td align="left">添加新的merchant数据</td>
+</tr>
+<tr>
+<td align="left">put</td>
+<td align="left">/merchant/31/</td>
+<td align="left">修改id=31的merchant数据</td>
+</tr>
+<tr>
+<td align="left">delete</td>
+<td align="left">/merchant/31</td>
+<td align="left">删除id=31的merchant数据</td>
+</tr>
+</tbody></table>
+<p>因为这里<code>retrieve</code>占用了<code>get</code>方法，所以如果想要实现获取列表的功能，那么需要再重新定义一个<code>url</code>和视图：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># views.py</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MerchantListView</span><span class="params">(generics.ListAPIView,)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    serializer_class = MerchantSerializer</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    queryset = Merchant.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># urls.py</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    path(<span class="string">'merchant/'</span>,views.MerchantView.as_view()),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    path(<span class="string">'merchant/&lt;int:pk&gt;/'</span>,views.MerchantView.as_view()),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    path(<span class="string">'merchants/'</span>,views.MerchantListView.as_view())</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    ...</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">]</span></pre></td></tr></table></figure>
+
+<p>这也是为什么<code>List</code>和<code>Retrieve</code>不能同时存在一个视图中的原因。</p>
+<hr>
+<h3 id="GenericAPIView介绍："><a href="#GenericAPIView介绍：" class="headerlink" title="GenericAPIView介绍："></a>GenericAPIView介绍：</h3><p>如果想要深入学会<code>generic</code>的一些用法。比如如何分页，如何过滤数据等。那么这时候就需要学习<code>GenericAPIView</code>的使用。</p>
+<h4 id="queryset："><a href="#queryset：" class="headerlink" title="queryset："></a>queryset：</h4><p><code>queryset</code>是用来控制视图返回给前端的数据。如果没什么逻辑，可以直接写在视图的类属性中，如果逻辑比较复杂，也可以重写<code>get_queryset</code>方法用来返回一个<code>queryset</code>对象。如果重写了<code>get_queryset</code>，那么以后获取<code>queryset</code>的时候就需要通过调用<code>get_queryset</code>方法。因为<code>queryset</code> 这个属性只会调用一次，以后所有的请求都是使用他的缓存。</p>
+<h4 id="serializer-class"><a href="#serializer-class" class="headerlink" title="serializer_class:"></a>serializer_class:</h4><p><code>serializer_class</code>用来验证和序列化数据的。也是可以通过直接设置这个属性，也可以通过重写<code>get_serializer_class</code>来实现。</p>
+<h4 id="lookup-field和lookup-url-kwarg："><a href="#lookup-field和lookup-url-kwarg：" class="headerlink" title="lookup_field和lookup_url_kwarg："></a>lookup_field和lookup_url_kwarg：</h4><ol>
+<li><code>lookup_field</code>：是在检索的时候，根据什么参数进行检索。默认是<code>pk</code>，也就是主键。</li>
+<li><code>lookup_url_kwarg</code>：在检索的<code>url</code>中的参数名称。默认没有设置，跟<code>lookup_field</code>保持一致。</li>
+</ol>
+<h4 id="分页："><a href="#分页：" class="headerlink" title="分页："></a>分页：</h4><p>分页是通过设置<code>pagination_class</code>来实现的。默认这个属性的值是<code>rest_framework.pagination.PageNumberPagination</code>，也就是通过控制页码，每页的数量来实现的。我们可以通过在<code>settings.REST_FRAMEWORK</code>中设置<code>PAGE_SIZE</code>来控制每页的数量，然后在<code>url</code>中通过传递<code>page</code>参数来获取指定页数的数据。</p>
+<h4 id="重写方法："><a href="#重写方法：" class="headerlink" title="重写方法："></a>重写方法：</h4><h5 id="1-get-queryset-self-："><a href="#1-get-queryset-self-：" class="headerlink" title="1. get_queryset(self)："></a>1. get_queryset(self)：</h5><p>用于动态的返回一个<code>queryset</code>对象。</p>
+<h5 id="2-get-object-self-："><a href="#2-get-object-self-：" class="headerlink" title="2. get_object(self)："></a>2. get_object(self)：</h5><p>用于在数据检索的时候，返回一条数据的。</p>
+<h5 id="3-perform-create-self-serializer-："><a href="#3-perform-create-self-serializer-：" class="headerlink" title="3. perform_create(self,serializer)："></a>3. perform_create(self,serializer)：</h5><p>保存对象的时候调用。</p>
+<h5 id="4-perform-update-self-serializer-："><a href="#4-perform-update-self-serializer-：" class="headerlink" title="4. perform_update(self,serializer)："></a>4. perform_update(self,serializer)：</h5><p>更新对象的时候调用。</p>
+<h5 id="5-perform-destroy-self-serializer-："><a href="#5-perform-destroy-self-serializer-：" class="headerlink" title="5. perform_destroy(self,serializer)："></a>5. perform_destroy(self,serializer)：</h5><p>删除对象的时候调用。</p>
+<h2 id="第五节-ViewSet视图集"><a href="#第五节-ViewSet视图集" class="headerlink" title="第五节 ViewSet视图集"></a>第五节 ViewSet视图集</h2><p><code>ViewSet</code>视图集，相当于是之前我们学习视图的一个集合。在视图集中，不再有<code>get</code>和<code>post</code>，取而代之的是<code>list</code>和<code>create</code>。以下分别进行讲解。</p>
+<h3 id="基本使用：-1"><a href="#基本使用：-1" class="headerlink" title="基本使用："></a>基本使用：</h3><p>比如我们想实现一个包含增、删、改、查、列表的视图集。我们可以通过以下代码来实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> viewsets</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Merchant</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .serializers <span class="keyword">import</span> MerchantSerializer</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> status</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> get_object_or_404</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MerchantViewSet</span><span class="params">(viewsets.ViewSet)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">list</span><span class="params">(self,request)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        queryset = Merchant.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        serializer = MerchantSerializer(queryset,many=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Response(data=serializer.data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(self,request)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        serializer = MerchantSerializer(data=request.data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> serializer.is_valid():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">            serializer.save()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> Response(<span class="string">"success"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> Response(<span class="string">"fail"</span>,status=status.HTTP_400_BAD_REQUEST)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">retrieve</span><span class="params">(self,request,pk=None)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        queryset = Merchant.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        merchant = get_object_or_404(queryset,pk=pk)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">        serializer = MerchantSerializer(merchant)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">update</span><span class="params">(self,request,pk=None)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">        queryset = Merchant.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">        merchant = get_object_or_404(queryset, pk=pk)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">        serializer = MerchantSerializer()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">        serializer.update(merchant,request.data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Response(<span class="string">'success'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">destroy</span><span class="params">(self,request,pk=None)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">        queryset = Merchant.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">        merchant = get_object_or_404(queryset,pk=pk)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">        merchant.delete()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Response(<span class="string">'success'</span>)</span></pre></td></tr></table></figure>
+
+<p>然后在<code>urls.py</code>中，通过<code>rest_framework.routers.DefaultRouter</code>注册路由即可。示例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">router = DefaultRouter()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">router.register(<span class="string">"merchant"</span>,MerchantViewSet,basename=<span class="string">"merchant"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">urlpatterns = []+router.urls</span></pre></td></tr></table></figure>
+
+<p>那么以后通过相应的<code>method</code>和<code>url</code>即可进行操作。</p>
+<h3 id="ModelViewSet："><a href="#ModelViewSet：" class="headerlink" title="ModelViewSet："></a>ModelViewSet：</h3><p>因为我们一个视图集基本上都是针对一个模型进行操作的，那么增删改查操作针对的也就是不同的模型，所以我们可以使用<code>ModelViewSet</code>简化以上的代码。比如以上代码，我们可以写成：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MerchantViewSet</span><span class="params">(viewsets.ModelViewSet)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    queryset = Merchant.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    serializer_class = MerchantSerializer</span></pre></td></tr></table></figure>
+
+<p>有时候在一个视图中，我们可能还需要增加其他的<code>url</code>，这时候就可以使用<code>@action</code>来实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.decorators <span class="keyword">import</span> action</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MerchantViewSet</span><span class="params">(viewsets.ModelViewSet)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    queryset = Merchant.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    serializer_class = MerchantSerializer</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="meta">    @action(['GET'],detail=False)</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">cs</span><span class="params">(self,request,*args,**kwargs)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        queryset = self.get_queryset()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        queryset = queryset.filter(name__contains=<span class="string">"长沙"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        serializer = MerchantSerializer(queryset,many=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Response(serializer.data)</span></pre></td></tr></table></figure>
+
+<p><code>urls.py</code>路由部分不需要修改。以后直接可以通过<code>/merchant/cs/</code>可以访问到<code>name</code>中包含了<code>&quot;长沙&quot;</code>两个字的所有商家。</p>
+<h2 id="第六节-认证和权限"><a href="#第六节-认证和权限" class="headerlink" title="第六节 认证和权限"></a>第六节 认证和权限</h2><h3 id="认证："><a href="#认证：" class="headerlink" title="认证："></a>认证：</h3><p>认证可以简单的理解为登录和访问需要登录的接口的认证。只要认证通过了，那么在<code>request</code>对象（是drf的request对象）上便有两个属性，一个是<code>request.user</code>，一个是<code>request.auth</code>，前者就是<code>django</code>中的<code>User</code>对象，后者根据不同的认证机制有不同的对象。<code>DRF</code>内置了几个认证的模块。以下进行简单了解。</p>
+<h4 id="rest-framework-authentication-BasicAuthentication："><a href="#rest-framework-authentication-BasicAuthentication：" class="headerlink" title="rest_framework.authentication.BasicAuthentication："></a>rest_framework.authentication.BasicAuthentication：</h4><p>基本的授权。每次都要在<code>Header</code>中把用户名和密码传给服务器，因此不是很安全，不能在生产环境中使用。</p>
+<h4 id="rest-framework-authentication-SessionAuthentication："><a href="#rest-framework-authentication-SessionAuthentication：" class="headerlink" title="rest_framework.authentication.SessionAuthentication："></a>rest_framework.authentication.SessionAuthentication：</h4><p>基于<code>django</code>的<code>session</code>机制实现的。如果前端部分是网页，那么用他是可以的，如果前端是<code>iOS</code>或者<code>Android</code>的<code>app</code>，用他就不太方便了（如果要用也是完全可以的）。</p>
+<h4 id="rest-framework-authentication-TokenAuthentication："><a href="#rest-framework-authentication-TokenAuthentication：" class="headerlink" title="rest_framework.authentication.TokenAuthentication："></a>rest_framework.authentication.TokenAuthentication：</h4><p>基于<code>token</code>的认证机制。只要登录完成后便会返回一个<code>token</code>，以后请求一些需要登录的<code>api</code>，就通过传递这个<code>token</code>就可以了，并且这个<code>token</code>是存储在服务器的数据库中的。<br>但是这种<code>token</code>的方式有一个缺点，就是他没有自动过期机制，一旦登录完成后，这个<code>token</code>是永久有效的，这是不安全的。</p>
+<h4 id="JSON-Web-Token认证机制："><a href="#JSON-Web-Token认证机制：" class="headerlink" title="JSON Web Token认证机制："></a>JSON Web Token认证机制：</h4><p><code>JSON Web Token</code>简称<code>JWT</code>。在前后端分离的项目中，或者是<code>app</code>项目中。推荐使用<code>JWT</code>。<code>JWT</code>是在成功后，把用户的相关信息（比如用户id）以及过期时间进行加密，然后生成一个<code>token</code>返回给客户端，客户端拿到后可以存储起来，以后每次请求的时候都携带这个<code>token</code>，服务器在接收到需要登录的<code>API</code>请求候，对这个<code>token</code>进行解密，然后获取过期时间和用户信息（比如用户id），如果过期了或者用户信息不对，那么都是认证失败。<code>JWT</code>的相关代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> jwt</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf <span class="keyword">import</span> settings</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.authentication <span class="keyword">import</span> BaseAuthentication,get_authorization_header</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> exceptions</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib.auth <span class="keyword">import</span> get_user_model</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> jwt.exceptions <span class="keyword">import</span> ExpiredSignatureError</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">MTUser = get_user_model()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_jwt</span><span class="params">(user)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    expire_time = int(time.time() + <span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>*<span class="number">7</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> jwt.encode(&#123;<span class="string">"userid"</span>:user.pk,<span class="string">"exp"</span>:expire_time&#125;,key=settings.SECRET_KEY).decode(<span class="string">'utf-8'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JWTAuthentication</span><span class="params">(BaseAuthentication)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    keyword = <span class="string">'JWT'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">authenticate</span><span class="params">(self, request)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        auth = get_authorization_header(request).split()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> auth <span class="keyword">or</span> auth[<span class="number">0</span>].lower() != self.keyword.lower().encode():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> len(auth) == <span class="number">1</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">            msg = <span class="string">"不可用的JWT请求头！"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">raise</span> exceptions.AuthenticationFailed(msg)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">elif</span> len(auth) &gt; <span class="number">2</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">            msg = <span class="string">'不可用的JWT请求头！JWT Token中间不应该有空格！'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">raise</span> exceptions.AuthenticationFailed(msg)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">try</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">            jwt_token = auth[<span class="number">1</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">            jwt_info = jwt.decode(jwt_token,settings.SECRET_KEY)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">            userid = jwt_info.get(<span class="string">'userid'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">try</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">                <span class="comment"># 绑定当前user到request对象上</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">                user = MTUser.objects.get(pk=userid)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">                <span class="keyword">return</span> user, jwt_token</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">except</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">                msg = <span class="string">'用户不存在！'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">raise</span> exceptions.AuthenticationFailed(msg)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">except</span> ExpiredSignatureError:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">            msg = <span class="string">"JWT Token已过期！"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">raise</span> exceptions.AuthenticationFailed(msg)</span></pre></td></tr></table></figure>
+
+<h4 id="配置认证："><a href="#配置认证：" class="headerlink" title="配置认证："></a>配置认证：</h4><p>配置认证有两种方式，一种是全局的，在<code>settings.REST_FRAMEWORK.DEFAULT_AUTHENTICATION_CLASSES</code>中配置。第二种就是在需要认证的视图中，通过<code>authentication_classes</code>进行配置。示例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">REST_FRAMEWORK = &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'DEFAULT_AUTHENTICATION_CLASSES'</span>: [<span class="string">'apps.mtauth.authentications.JWTAuthentication'</span>],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'DEFAULT_PAGINATION_CLASS'</span>: <span class="string">'rest_framework.pagination.PageNumberPagination'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'PAGE_SIZE'</span>: <span class="number">12</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'PAGE_QUERY_PARAM'</span>: <span class="string">"page"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+<h3 id="权限："><a href="#权限：" class="headerlink" title="权限："></a>权限：</h3><p>不同的<code>API</code>拥有不同的访问权限。比如普通用户有读文章的权限，但是没有删除文章的权限。因此需要用到权限来进行<code>API</code>的管理。以下是<code>DRF</code>自带的权限。</p>
+<h4 id="permissions-AllowAny："><a href="#permissions-AllowAny：" class="headerlink" title="permissions.AllowAny："></a>permissions.AllowAny：</h4><p>允许所有人访问。</p>
+<h4 id="permissions-IsAuthenticated："><a href="#permissions-IsAuthenticated：" class="headerlink" title="permissions.IsAuthenticated："></a>permissions.IsAuthenticated：</h4><p>是登录的用户即可访问（判断条件是<code>request.user and request.user.is_authenticated</code>）</p>
+<h4 id="permissions-IsAdminUser："><a href="#permissions-IsAdminUser：" class="headerlink" title="permissions.IsAdminUser："></a>permissions.IsAdminUser：</h4><p>是管理员。（判断条件是<code>request.user and request.user.is_staff</code>）</p>
+<h4 id="permissions-IsAuthenticatedOrReadOnly："><a href="#permissions-IsAuthenticatedOrReadOnly：" class="headerlink" title="permissions.IsAuthenticatedOrReadOnly："></a>permissions.IsAuthenticatedOrReadOnly：</h4><p>是登录的用户，并且这个<code>API</code>是只能读的（也就是<code>GET</code>、<code>OPTIONS</code>、<code>HEAD</code>）。</p>
+<h4 id="自定义权限："><a href="#自定义权限：" class="headerlink" title="自定义权限："></a>自定义权限：</h4><p>有时候<code>drf</code>自带的权限无法满足要求，那么我们可以自定义权限。自定义权限要遵循两个条件：</p>
+<ol>
+<li>继承自<code>permissions.BasePermission</code>。</li>
+<li>实现<code>has_permission(self,request,view)</code>或者是<code>has_object_permission(self, request, view, obj)</code>方法。第一个方法用管理整个视图的访问权限，第二个方法可以用来管理某个对象的访问权限（比如只能修改自己的用户信息）。</li>
+</ol>
+<p>示例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> permissions</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IsOwnerOrReadOnly</span><span class="params">(permissions.BasePermission)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">has_object_permission</span><span class="params">(self, request, view, obj)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> request.method <span class="keyword">in</span> permissions.SAFE_METHODS:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> obj.owner == request.user</span></pre></td></tr></table></figure>
+
+<h4 id="权限的使用："><a href="#权限的使用：" class="headerlink" title="权限的使用："></a>权限的使用：</h4><p>权限的使用也是两种方式。第一种是在<code>settings.REST_FRAMEWORK.DEFAULT_PERMISSION_CLASSES</code>设置。第二种是在具体的视图函数中通过<code>permission_classes</code>来设置。比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># settings.py</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">REST_FRAMEWORK = &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'DEFAULT_PERMISSION_CLASSES'</span>: [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'rest_framework.permissions.IsAuthenticated'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    ]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># views.py</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleView</span><span class="params">(APIView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    permission_classes = [IsAuthenticated]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, request, format=None)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        content = &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            <span class="string">'status'</span>: <span class="string">'request was permitted'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Response(content)</span></pre></td></tr></table></figure>
+
+<h2 id="第七节-限速节流"><a href="#第七节-限速节流" class="headerlink" title="第七节 限速节流"></a>第七节 限速节流</h2><p>使用<code>drf</code>可以给我们的网站<code>API</code>限速节流。比如一些爬虫，爬你网站的数据，那么我们可以通过设置访问的频率和次数来限制他的行为。</p>
+<h3 id="配置："><a href="#配置：" class="headerlink" title="配置："></a>配置：</h3><p>限速节流配置也是分成两种。第一种是直接在<code>settings.REST_FRAMEWORK</code>中设置，第二种是针对每个视图函数进行设置。配置分成两个，一个是<code>throttle_classes</code>，另外一个是<code>throttle_rates</code>。前者是配置不同的节流方式，后者是配置节流的策略。示例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># settings.py</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">REST_FRAMEWORK = &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'DEFAULT_THROTTLE_CLASSES'</span>: [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'rest_framework.throttling.AnonRateThrottle'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'rest_framework.throttling.UserRateThrottle'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    ],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'DEFAULT_THROTTLE_RATES'</span>: &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'anon'</span>: <span class="string">'100/day'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'user'</span>: <span class="string">'1000/day'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># views.py</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.throttling <span class="keyword">import</span> UserRateThrottle</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.views <span class="keyword">import</span> APIView</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleView</span><span class="params">(APIView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    throttle_classes = [UserRateThrottle]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, request, format=None)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        content = &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">            <span class="string">'status'</span>: <span class="string">'request was permitted'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Response(content)</span></pre></td></tr></table></figure>
+
+<h3 id="节流的类："><a href="#节流的类：" class="headerlink" title="节流的类："></a>节流的类：</h3><p>在<code>drf</code>中，节流的类总共有以下三个：</p>
+<h4 id="AnonRateThrottle："><a href="#AnonRateThrottle：" class="headerlink" title="AnonRateThrottle："></a>AnonRateThrottle：</h4><p>针对那些没有登录的用户进行节流。默认会根据<code>REMOTE_ADDR</code>，也就是用户的<code>IP</code>地址作为限制的标记。如果用户使用了透明代理（匿名代理没法追踪），那么在<code>X-Forwarded-For</code>中会保留所有的代理的<code>IP</code>。比如下图：<br><img src="/2021/02/03/DRF/assets/MultipleProxySetup.png" alt="img"><br>这时候就要看在<code>settings.REST_FRAMEWORK.NUM_PROXIES</code>了，如果这个值设置的是0，那么那么将获取<code>REMOTE_ADDR</code>也就是真实的<code>IP</code>地址，如果设置的是大于<code>0</code>的数，那么将获取代理的最后一个<code>IP</code>。</p>
+<h4 id="UserRateThrottle："><a href="#UserRateThrottle：" class="headerlink" title="UserRateThrottle："></a>UserRateThrottle：</h4><p>根据用户的<code>id</code>来作为节流的标识。可以通过两种方式设置节流的策略。</p>
+<ol>
+<li>在<code>settings.REST_FRAMEWORK.DEFAULT_THROTTLE_RATES[&#39;user&#39;]</code>设置。</li>
+<li>自定义节流类，继承自<code>UserRateThrottle</code>，然后重写<code>rate</code>属性。</li>
+</ol>
+<p>如果想要针对不同类型的用户实现不同策略的节流，我们可以通过继承<code>UserRateThrottle</code>类，然后设置<code>scope</code>属性，然后针对不同的<code>scope</code>设置不同的节流策略。比如针对管理员<code>admin</code>和普通用户<code>normal</code>，可以设置不同的策略。代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AdminRateThrottle</span><span class="params">(UserRateThrottle)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    scope = <span class="string">'admin'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NormalRateThrottle</span><span class="params">(UserRateThrottle)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    scope = <span class="string">'normal'</span></span></pre></td></tr></table></figure>
+
+<p>然后在<code>settings.py</code>中可以如下设置：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">REST_FRAMEWORK = &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'DEFAULT_THROTTLE_CLASSES'</span>: [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'example.throttles.AdminRateThrottle'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'example.throttles.NormalRateThrottle'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    ],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'DEFAULT_THROTTLE_RATES'</span>: &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'normal'</span>: <span class="string">'60/day'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'admin'</span>: <span class="string">'1000/day'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+<h4 id="ScopedRateThrottle："><a href="#ScopedRateThrottle：" class="headerlink" title="ScopedRateThrottle："></a>ScopedRateThrottle：</h4><p>这个就不管是登录用户，还是没有登录的用户。都是根据<code>scope</code>来实现节流策略的。这个就只需要在视图中，重写<code>throttle_scope</code>属性，指定具体的<code>scope</code>，然后在<code>settings.py</code>中进行设置。示例代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># views.py</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ContactListView</span><span class="params">(APIView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    throttle_scope = <span class="string">'contacts'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    ...</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ContactDetailView</span><span class="params">(APIView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    throttle_scope = <span class="string">'contacts'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    ...</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UploadView</span><span class="params">(APIView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    throttle_scope = <span class="string">'uploads'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    ...</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># settings.py</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">REST_FRAMEWORK = &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'DEFAULT_THROTTLE_CLASSES'</span>: [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'rest_framework.throttling.ScopedRateThrottle'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    ],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'DEFAULT_THROTTLE_RATES'</span>: &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'contacts'</span>: <span class="string">'1000/day'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'uploads'</span>: <span class="string">'20/day'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+  
+</div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Django/" <i class="fa fa-tag"></i> Django</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/26/DjangoTag/" rel="next" title="Django-tag">
+                <i class="fa fa-chevron-left"></i> Django-tag
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/author.png"
+                alt="沈强" />
+            
+              <p class="site-author-name" itemprop="name">沈强</p>
+              <p class="site-description motion-element" itemprop="description">点滴积累终成大海</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Bingo-shen" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.cnblogs.com/shen-qiang" target="_blank" title="CnBlogs">
+                      
+                        <i class="fa fa-fw fa-crosshairs"></i>CnBlogs</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一节-DRF介绍"><span class="nav-text">第一节 DRF介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DRF介绍："><span class="nav-text">DRF介绍：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装："><span class="nav-text">安装：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本使用："><span class="nav-text">基本使用：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、注册rest-framework："><span class="nav-text">一、注册rest_framework：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、创建app和模型："><span class="nav-text">二、创建app和模型：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、添加测试数据："><span class="nav-text">三、添加测试数据：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、编写Serializers："><span class="nav-text">四、编写Serializers：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、编写视图："><span class="nav-text">五、编写视图：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、编写路由："><span class="nav-text">六、编写路由：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二节-序列化"><span class="nav-text">第二节 序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个Serializer类："><span class="nav-text">创建一个Serializer类：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ModelSerializer："><span class="nav-text">ModelSerializer：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Serializer的嵌套："><span class="nav-text">Serializer的嵌套：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于read-only和write-only："><span class="nav-text">关于read_only和write_only：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证："><span class="nav-text">验证：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更多："><span class="nav-text">更多：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三节-Request和Response"><span class="nav-text">第三节 Request和Response</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Request对象："><span class="nav-text">Request对象：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Response对象："><span class="nav-text">Response对象：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态码："><span class="nav-text">状态码：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现APIView："><span class="nav-text">实现APIView：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四节-类试图"><span class="nav-text">第四节 类试图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#APIView："><span class="nav-text">APIView：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mixins："><span class="nav-text">Mixins：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generic类视图："><span class="nav-text">Generic类视图：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GenericAPIView介绍："><span class="nav-text">GenericAPIView介绍：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#queryset："><span class="nav-text">queryset：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#serializer-class"><span class="nav-text">serializer_class:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lookup-field和lookup-url-kwarg："><span class="nav-text">lookup_field和lookup_url_kwarg：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分页："><span class="nav-text">分页：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重写方法："><span class="nav-text">重写方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-get-queryset-self-："><span class="nav-text">1. get_queryset(self)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-get-object-self-："><span class="nav-text">2. get_object(self)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-perform-create-self-serializer-："><span class="nav-text">3. perform_create(self,serializer)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-perform-update-self-serializer-："><span class="nav-text">4. perform_update(self,serializer)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-perform-destroy-self-serializer-："><span class="nav-text">5. perform_destroy(self,serializer)：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五节-ViewSet视图集"><span class="nav-text">第五节 ViewSet视图集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本使用：-1"><span class="nav-text">基本使用：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ModelViewSet："><span class="nav-text">ModelViewSet：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第六节-认证和权限"><span class="nav-text">第六节 认证和权限</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#认证："><span class="nav-text">认证：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#rest-framework-authentication-BasicAuthentication："><span class="nav-text">rest_framework.authentication.BasicAuthentication：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rest-framework-authentication-SessionAuthentication："><span class="nav-text">rest_framework.authentication.SessionAuthentication：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rest-framework-authentication-TokenAuthentication："><span class="nav-text">rest_framework.authentication.TokenAuthentication：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSON-Web-Token认证机制："><span class="nav-text">JSON Web Token认证机制：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置认证："><span class="nav-text">配置认证：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#权限："><span class="nav-text">权限：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#permissions-AllowAny："><span class="nav-text">permissions.AllowAny：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#permissions-IsAuthenticated："><span class="nav-text">permissions.IsAuthenticated：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#permissions-IsAdminUser："><span class="nav-text">permissions.IsAdminUser：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#permissions-IsAuthenticatedOrReadOnly："><span class="nav-text">permissions.IsAuthenticatedOrReadOnly：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义权限："><span class="nav-text">自定义权限：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#权限的使用："><span class="nav-text">权限的使用：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第七节-限速节流"><span class="nav-text">第七节 限速节流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置："><span class="nav-text">配置：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#节流的类："><span class="nav-text">节流的类：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AnonRateThrottle："><span class="nav-text">AnonRateThrottle：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UserRateThrottle："><span class="nav-text">UserRateThrottle：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ScopedRateThrottle："><span class="nav-text">ScopedRateThrottle：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-[object Object]"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">沈强</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/z16.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
