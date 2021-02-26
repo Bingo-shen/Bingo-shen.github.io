@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="本文包括：DRF介绍、安装、基本使用，序列化，Request和Response，类试图，ViewSet视图集，认证和权限，限速节流… 第一节 DRF介绍DRF介绍：DRF是Django Rest Framework单词的简写，是在Django框架中实现Restful API的一个插件，使用他可以非常方便的实现接口数据的返回。Django中也可以使用JsonResponse直接返回json格式的数据">
+<meta name="description" content="本文包括：DRF介绍、安装、基本使用，序列化，Request和Response，类试图，ViewSet视图集，认证和权限，限速节流… 第一节 DRF介绍DRF介绍：、DRF是Django Rest Framework单词的简写，是在Django框架中实现Restful API的一个插件，使用他可以非常方便的实现接口数据的返回。Django中也可以使用JsonResponse直接返回json格式的数">
 <meta name="keywords" content="Django">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django Rest Framework">
-<meta property="og:url" content="https:&#x2F;&#x2F;huangpiao.tech&#x2F;2021&#x2F;02&#x2F;03&#x2F;DRF&#x2F;index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;huangpiao.tech&#x2F;2021&#x2F;02&#x2F;19&#x2F;DRF&#x2F;index.html">
 <meta property="og:site_name" content="沈剑心的博客">
-<meta property="og:description" content="本文包括：DRF介绍、安装、基本使用，序列化，Request和Response，类试图，ViewSet视图集，认证和权限，限速节流… 第一节 DRF介绍DRF介绍：DRF是Django Rest Framework单词的简写，是在Django框架中实现Restful API的一个插件，使用他可以非常方便的实现接口数据的返回。Django中也可以使用JsonResponse直接返回json格式的数据">
+<meta property="og:description" content="本文包括：DRF介绍、安装、基本使用，序列化，Request和Response，类试图，ViewSet视图集，认证和权限，限速节流… 第一节 DRF介绍DRF介绍：、DRF是Django Rest Framework单词的简写，是在Django框架中实现Restful API的一个插件，使用他可以非常方便的实现接口数据的返回。Django中也可以使用JsonResponse直接返回json格式的数">
 <meta property="og:locale" content="zn-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;huangpiao.tech&#x2F;2021&#x2F;02&#x2F;03&#x2F;DRF&#x2F;assets&#x2F;MultipleProxySetup.png">
-<meta property="og:updated_time" content="2021-02-03T01:46:06.279Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;huangpiao.tech&#x2F;2021&#x2F;02&#x2F;19&#x2F;DRF&#x2F;assets&#x2F;MultipleProxySetup.png">
+<meta property="og:updated_time" content="2021-02-19T07:40:04.260Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;huangpiao.tech&#x2F;2021&#x2F;02&#x2F;03&#x2F;DRF&#x2F;assets&#x2F;MultipleProxySetup.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;huangpiao.tech&#x2F;2021&#x2F;02&#x2F;19&#x2F;DRF&#x2F;assets&#x2F;MultipleProxySetup.png">
 
 
 
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="https://huangpiao.tech/2021/02/03/DRF/"/>
+  <link rel="canonical" href="https://huangpiao.tech/2021/02/19/DRF/"/>
 
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://huangpiao.tech/2021/02/03/DRF/">
+    <link itemprop="mainEntityOfPage" href="https://huangpiao.tech/2021/02/19/DRF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="沈强">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-03T09:46:06+08:00">
-                2021-02-03
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-19T15:40:04+08:00">
+                2021-02-19
               </time>
             
 
@@ -343,7 +343,7 @@
 
       
         <p>本文包括：<br>DRF介绍、安装、基本使用，序列化，Request和Response，类试图，ViewSet视图集，认证和权限，限速节流…</p>
-<h2 id="第一节-DRF介绍"><a href="#第一节-DRF介绍" class="headerlink" title="第一节 DRF介绍"></a>第一节 DRF介绍</h2><h3 id="DRF介绍："><a href="#DRF介绍：" class="headerlink" title="DRF介绍："></a>DRF介绍：</h3><p><code>DRF</code>是<code>Django Rest Framework</code>单词的简写，是在<code>Django</code>框架中实现<code>Restful API</code>的一个插件，使用他可以非常方便的实现接口数据的返回。<code>Django</code>中也可以使用<code>JsonResponse</code>直接返回<code>json</code>格式的数据，但是<code>DRF</code>相比直接使用<code>Django</code>返回<code>json</code>数据有以下几个好处：</p>
+<h2 id="第一节-DRF介绍"><a href="#第一节-DRF介绍" class="headerlink" title="第一节 DRF介绍"></a>第一节 DRF介绍</h2><h3 id="DRF介绍："><a href="#DRF介绍：" class="headerlink" title="DRF介绍："></a>DRF介绍：</h3><p>、<br><code>DRF</code>是<code>Django Rest Framework</code>单词的简写，是在<code>Django</code>框架中实现<code>Restful API</code>的一个插件，使用他可以非常方便的实现接口数据的返回。<code>Django</code>中也可以使用<code>JsonResponse</code>直接返回<code>json</code>格式的数据，但是<code>DRF</code>相比直接使用<code>Django</code>返回<code>json</code>数据有以下几个好处：</p>
 <ol>
 <li>可以自动生成<code>API</code>文档，在前后端分离开发的时候进行沟通比较有用。</li>
 <li>授权验证策略比较完整，包含<code>OAuth1</code>和<code>OAuth2</code>验证。</li>
@@ -546,7 +546,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># settings.py</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">REST_FRAMEWORK = &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'DEFAULT_THROTTLE_CLASSES'</span>: [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'rest_framework.throttling.AnonRateThrottle'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'rest_framework.throttling.UserRateThrottle'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    ],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'DEFAULT_THROTTLE_RATES'</span>: &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'anon'</span>: <span class="string">'100/day'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'user'</span>: <span class="string">'1000/day'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># views.py</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.throttling <span class="keyword">import</span> UserRateThrottle</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.views <span class="keyword">import</span> APIView</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleView</span><span class="params">(APIView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    throttle_classes = [UserRateThrottle]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, request, format=None)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        content = &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">            <span class="string">'status'</span>: <span class="string">'request was permitted'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> Response(content)</span></pre></td></tr></table></figure>
 
 <h3 id="节流的类："><a href="#节流的类：" class="headerlink" title="节流的类："></a>节流的类：</h3><p>在<code>drf</code>中，节流的类总共有以下三个：</p>
-<h4 id="AnonRateThrottle："><a href="#AnonRateThrottle：" class="headerlink" title="AnonRateThrottle："></a>AnonRateThrottle：</h4><p>针对那些没有登录的用户进行节流。默认会根据<code>REMOTE_ADDR</code>，也就是用户的<code>IP</code>地址作为限制的标记。如果用户使用了透明代理（匿名代理没法追踪），那么在<code>X-Forwarded-For</code>中会保留所有的代理的<code>IP</code>。比如下图：<br><img src="/2021/02/03/DRF/assets/MultipleProxySetup.png" alt="img"><br>这时候就要看在<code>settings.REST_FRAMEWORK.NUM_PROXIES</code>了，如果这个值设置的是0，那么那么将获取<code>REMOTE_ADDR</code>也就是真实的<code>IP</code>地址，如果设置的是大于<code>0</code>的数，那么将获取代理的最后一个<code>IP</code>。</p>
+<h4 id="AnonRateThrottle："><a href="#AnonRateThrottle：" class="headerlink" title="AnonRateThrottle："></a>AnonRateThrottle：</h4><p>针对那些没有登录的用户进行节流。默认会根据<code>REMOTE_ADDR</code>，也就是用户的<code>IP</code>地址作为限制的标记。如果用户使用了透明代理（匿名代理没法追踪），那么在<code>X-Forwarded-For</code>中会保留所有的代理的<code>IP</code>。比如下图：<br><img src="/2021/02/19/DRF/assets/MultipleProxySetup.png" alt="img"><br>这时候就要看在<code>settings.REST_FRAMEWORK.NUM_PROXIES</code>了，如果这个值设置的是0，那么那么将获取<code>REMOTE_ADDR</code>也就是真实的<code>IP</code>地址，如果设置的是大于<code>0</code>的数，那么将获取代理的最后一个<code>IP</code>。</p>
 <h4 id="UserRateThrottle："><a href="#UserRateThrottle：" class="headerlink" title="UserRateThrottle："></a>UserRateThrottle：</h4><p>根据用户的<code>id</code>来作为节流的标识。可以通过两种方式设置节流的策略。</p>
 <ol>
 <li>在<code>settings.REST_FRAMEWORK.DEFAULT_THROTTLE_RATES[&#39;user&#39;]</code>设置。</li>
@@ -611,6 +611,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/02/27/OptimizedThreads/" rel="prev" title="OptimizedThread">
+                OptimizedThread <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -691,7 +695,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
